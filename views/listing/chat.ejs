@@ -1,0 +1,132 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Toastify for notifications -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<!-- Socket.IO -->
+<script src="/socket.io/socket.io.js"></script>
+
+<style>
+  .chat-container {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+  }
+
+  #messages {
+    height: 300px;
+    overflow-y: auto;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+  }
+
+  .message-bubble {
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.8rem;
+    background-color: #e7f1ff;
+    border-radius: 10px;
+    width: fit-content;
+    max-width: 70%;
+    animation: fadeIn 0.3s ease forwards;
+  }
+
+  .message-bubble.self {
+    background-color: #d1ffe7;
+    margin-left: auto;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  #messageInput:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    transition: box-shadow 0.2s ease-in-out;
+  }
+</style>
+
+<div class="container my-5">
+  <div class="card chat-container">
+    <div id="messages"></div>
+    <form id="chatForm" class="mt-3">
+      <input type="text" id="messageInput" class="form-control mb-2" placeholder="Type your message..." autocomplete="off" required />
+      <button class="btn btn-outline-primary w-100">
+        <i class="fas fa-paper-plane"></i> Send
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Pass username and room ID safely to JS -->
+<script>
+  const USERNAME = <%- JSON.stringify(user.username) %>;
+  const ROOM_ID = <%- JSON.stringify(listing._id) %>;
+
+  console.log("Current user:", USERNAME);
+</script>
+
+<script>
+  const socket = io();
+
+  const form = document.getElementById("chatForm");
+  const input = document.getElementById("messageInput");
+  const messages = document.getElementById("messages");
+
+  socket.emit("joinRoom", ROOM_ID);
+
+  socket.on("chatMessage", (data) => {
+    const div = document.createElement("div");
+    div.classList.add("message-bubble");
+    if (data.sender === USERNAME) {
+      div.classList.add("self");
+    }
+    div.innerHTML = `<strong>${data.sender}:</strong> ${data.text}`;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const message = input.value.trim();
+    if (message !== "") {
+      socket.emit("chatMessage", {
+        room: ROOM_ID,
+        sender: USERNAME,
+        text: message,
+      });
+      input.value = "";
+    }
+  });
+
+  // Optional toast notification (uncomment if needed)
+  /*
+  socket.on("new-message-notification", ({ from, message }) => {
+    if (from !== USERNAME) {
+      Toastify({
+        text: `💬 ${from}: "${message}"`,
+        duration: 4000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#007bff",
+        stopOnFocus: true,
+        close: true
+      }).showToast();
+    }
+  });
+  */
+</script>

@@ -1,0 +1,87 @@
+<% layout("layouts/boilerplate") %>
+
+<style>
+
+  .container {
+    max-width: 1200px;
+  }
+
+  h2 {
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    border: none;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .card img {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0056b3;
+  }
+
+  .card-text {
+    color: #666;
+    font-size: 0.9rem;
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    transition: background 0.3s ease-in-out;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .no-results {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 20px;
+  }
+</style>
+
+<div class="container mt-4">
+  <!-- <h2>Search Results for "<%= query %>"</h2> -->
+  <% if (results.length > 0) { %>
+    <div class="row">
+      <% results.forEach((listing) => { %>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <div class="card mb-4">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="Listing">
+            <div class="card-body">
+              <h5 class="card-title"><%= listing.title %></h5>
+              <p class="card-text"><%= listing.description %></p>
+              <a href="/listings/<%= listing._id %>" class="btn btn-outline-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p class="no-results">No results found. Try searching with different keywords.</p>
+  <% } %>
+</div>

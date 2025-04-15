@@ -1,0 +1,101 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #ecf0f1;
+  }
+  .form-container {
+    background-color: rgba(44, 62, 80, 0.9);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  .btn-custom {
+    background: #f39c12;
+    border: none;
+    color: white;
+  }
+  .btn-custom:hover {
+    background: #e67e22;
+  }
+</style>
+
+<div class="row mt-3 d-flex justify-content-center">
+  <div class="col-md-8">
+    <h5 class="text-center mb-4">Edit Your Listing</h5>
+    <div class="form-container">
+      <form
+        method="POST"
+        action="/listings/<%= listing._id %>?_method=PUT"
+        novalidate
+        class="needs-validation"
+        enctype="multipart/form-data"
+      >
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            name="listing[title]"
+            value="<%= listing.title %>"
+            type="text"
+            class="form-control bg-dark text-white border-secondary"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea name="listing[description]" class="form-control bg-dark text-white border-secondary" required><%= listing.description %></textarea>
+        </div>
+
+        <div class="mb-3 text-center">
+          <p class="fw-bold">Original Listing Image</p>
+          <img src="<%= originalImageUrl %>" class="img-fluid rounded shadow-sm" style="max-width: 250px; height: auto; border: 2px solid #ecf0f1;" />
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">Upload New Image</label>
+          <input name="listing[image]" type="file" class="form-control bg-dark text-white border-secondary"/>
+        </div>
+
+        <div class="row">
+          <div class="mb-3 col-md-4">
+            <label for="price" class="form-label">Price</label>
+            <input
+              name="listing[price]"
+              value="<%= listing.price %>"
+              type="number"
+              class="form-control bg-dark text-white border-secondary"
+              required
+            />
+          </div>
+          <div class="mb-3 col-md-8">
+            <label for="country" class="form-label">Country</label>
+            <input
+              name="listing[country]"
+              value="<%= listing.country %>"
+              type="text"
+              class="form-control bg-dark text-white border-secondary"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input
+            name="listing[location]"
+            value="<%= listing.location %>"
+            type="text"
+            class="form-control bg-dark text-white border-secondary"
+            required
+          />
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-custom px-4">Update Listing</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

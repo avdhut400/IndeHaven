@@ -1,0 +1,572 @@
+<% layout("/layouts/boilerplate") %> 
+<%= success %>
+
+<style>
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .filter {
+    text-align: center;
+    margin: 1rem;
+    opacity: 0.7;
+  }
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  .filter p {
+    font-size: 0.8rem;
+  }
+  .tax-info {
+    display: none;
+    font-size: 0.8rem;
+    color: gray;
+  }
+  .tax-toggle {
+    border: 1px solid #aaa;
+    border-radius: 1rem;
+    height: 3rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    margin: 1rem auto;
+  }
+
+  /* Card Styles */
+  .listing-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    background: white;
+    position: relative;
+  }
+
+  .listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .listing-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff7b54, #e94560);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .listing-card:hover::after {
+    opacity: 1;
+  }
+
+  .card-img-top {
+    transition: transform 0.5s ease;
+  }
+
+  .listing-card:hover .card-img-top {
+    transform: scale(1.03);
+  }
+
+
+  #chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 380px;
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  
+  #chatbot-container.active {
+    transform: translateY(0);
+    opacity: 1;
+    display: flex;
+  }
+  
+  #chatbot-header {
+    background: linear-gradient(90deg, #0f3460, #533483);
+    color: white;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  #chatbot-close {
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+    opacity: 0.8;
+  }
+  
+  #chatbot-close:hover {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  
+  #chatbot-body {
+    height: 400px;
+    overflow-y: auto;
+    padding: 20px;
+    background: rgba(10, 10, 20, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .message {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    line-height: 1.4;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .user-message {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #e94560, #ff7b54);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .bot-message {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 4px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .bot-message:before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 12px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .user-message:after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 12px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid #e94560;
+  }
+  
+  #chatbot-input-container {
+    display: flex;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    background: rgba(15, 15, 30, 0.8);
+    backdrop-filter: blur(5px);
+  }
+  
+  #chatbot-input {
+    flex-grow: 1;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 25px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+  
+  #chatbot-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+  }
+  
+  #chatbot-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  #send-button {
+    background: linear-gradient(135deg, #e94560, #ff7b54);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    margin-left: 12px;
+    cursor: pointer;
+    border-radius: 25px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+  }
+  
+  #send-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+  }
+  
+  #send-button:active {
+    transform: translateY(0);
+  }
+  
+  #chatbot-toggle {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: linear-gradient(135deg, #0f3460, #533483);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(15, 52, 96, 0.3);
+    transition: all 0.3s ease;
+    z-index: 999;
+  }
+  
+  #chatbot-toggle:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 8px 25px rgba(15, 52, 96, 0.4);
+  }
+  
+  #chatbot-toggle.active {
+    transform: rotate(90deg);
+    background: linear-gradient(135deg, #e94560, #ff7b54);
+  }
+  
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+
+  .typing-indicator {
+    display: inline-block;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    border-bottom-left-radius: 4px;
+    margin-bottom: 15px;
+  }
+  
+  .typing-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    margin: 0 2px;
+    animation: typingAnimation 1.4s infinite ease-in-out;
+  }
+  
+  .typing-dot:nth-child(1) { animation-delay: 0s; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  
+  @keyframes typingAnimation {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+  }
+  
+
+  #chatbot-body::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  #chatbot-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  #chatbot-body::-webkit-scrollbar-thumb {
+    background: rgba(233, 69, 96, 0.5);
+    border-radius: 3px;
+  }
+  
+  #chatbot-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(233, 69, 96, 0.7);
+  }
+</style>
+
+<div id="filters">
+  <div class="filter">
+    <div><i class="fa-solid fa-fire"></i></div>
+    Trending
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-bed"></i></div>
+    Rooms
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-mountain-city"></i></div>
+    Iconic Cities
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-mountain"></i></div>
+    Mountains
+  </div>
+  <div class="filter">
+    <div><i class="fa-brands fa-fort-awesome"></i></div>
+    Castles
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-snowflake"></i></div>
+    Arctic
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-campground"></i></div>
+    Camping
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-person-swimming"></i></div>
+    Amazing Pools
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-cow"></i></div>
+    Farms
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-igloo"></i></div>
+    Domes
+  </div>
+
+  <div class="tax-toggle">
+    <div class="form-check form-switch m-1">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Display total after Tax</label>
+    </div>
+  </div>
+</div>
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+  <% for (let listing of allistings) { %>
+  <a href="/listings/<%= listing.id %>" class="listing-link text-decoration-none text-dark">
+    <div class="card col listing-card mb-4">
+      <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem; object-fit: cover;">
+      <div class="card-body">
+        <p class="card-text">
+          <b><%= listing.title %></b><br />
+          ₹ <%= listing.price.toLocaleString("en-IN") %> /night
+          <span class="tax-info"> &nbsp;<b> +18% GST </b></span>
+        </p>
+      </div>
+    </div>
+  </a>
+  <% } %>
+</div>
+
+
+<button id="chatbot-toggle"><i class="fa-brands fa-bots"></i></button>
+
+
+<div id="chatbot-container">
+  <div id="chatbot-header">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="/image/a.jpg" alt="Assistant Avatar" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
+      <span>AI Assistant</span>
+    </div>
+    <span id="chatbot-close">✕</span>
+  </div>
+  <div id="chatbot-body">
+    <div class="bot-message message">
+      <div style="display: flex; align-items: flex-start; gap: 8px;">
+        <img src="/image/a.jpg" alt="Bot Avatar" style="width: 24px; height: 24px; border-radius: 50%; margin-top: 2px;">
+        <div>Hello! I'm your DeepSeek AI assistant. How can I help you today?</div>
+      </div>
+    </div>
+  </div>
+  <div id="chatbot-input-container">
+    <input type="text" id="chatbot-input" placeholder="Ask me anything...">
+    <button id="send-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+</div>
+
+
+
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+
+
+
+
+
+<script>
+  //  tax toggle 
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (let info of taxInfo) {
+      if (info.style.display !== "inline") {
+        info.style.display = "inline";
+      } else {
+        info.style.display = "none";
+      }
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    const chatbotContainer = document.getElementById("chatbot-container");
+    const toggleBtn = document.getElementById("chatbot-toggle");
+    const closeBtn = document.getElementById("chatbot-close");
+    const chatBody = document.getElementById("chatbot-body");
+    const inputField = document.getElementById("chatbot-input");
+    const sendBtn = document.getElementById("send-button");
+
+
+    function toggleChatbot() {
+      chatbotContainer.classList.toggle("active");
+      toggleBtn.classList.toggle("active");
+      if (chatbotContainer.classList.contains("active")) {
+        setTimeout(() => inputField.focus(), 300);
+      }
+    }
+
+    toggleBtn.addEventListener("click", toggleChatbot);
+    closeBtn.addEventListener("click", toggleChatbot);
+
+    function showTyping() {
+      const typingIndicator = document.createElement("div");
+      typingIndicator.className = "typing-indicator";
+      typingIndicator.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      `;
+      chatBody.appendChild(typingIndicator);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return typingIndicator;
+    }
+
+    function hideTyping(indicator) {
+      if (indicator?.parentNode) indicator.parentNode.removeChild(indicator);
+    }
+
+
+    async function sendToDeepSeek(message) {
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        return await response.json();
+      } catch (error) {
+        console.error("API Error:", error);
+        return { reply: "Sorry, I encountered an error. Please try again." };
+      }
+    }
+
+    async function sendMessage() {
+      const message = inputField.value.trim();
+      if (!message) return;
+
+   
+      const userMessage = document.createElement("div");
+      userMessage.className = "message user-message";
+      userMessage.textContent = message;
+      chatBody.appendChild(userMessage);
+      
+      inputField.value = "";
+      chatBody.scrollTop = chatBody.scrollHeight;
+      
+      
+      const typingIndicator = showTyping();
+      const { reply } = await sendToDeepSeek(message);
+      hideTyping(typingIndicator);
+      
+      
+      const botMessage = document.createElement("div");
+      botMessage.className = "message bot-message";
+      botMessage.textContent = reply;
+      chatBody.appendChild(botMessage);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+   
+    sendBtn.addEventListener("click", sendMessage);
+    inputField.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+  });
+
+
+  
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+</script>

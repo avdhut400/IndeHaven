@@ -1,0 +1,111 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Litepicker CSS -->
+<link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet"/>
+
+<style>
+  .payment-card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .payment-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  }
+
+  .listing-image {
+    width: 250px;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .info-text {
+    font-size: 1rem;
+    color: #4a4a4a;
+  }
+
+  .price-tag {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #0d6efd;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .pay-btn {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+</style>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+      <div class="payment-card">
+        <h2 class="text-center mb-4 text-dark fw-bold">💳 Secure Payment</h2>
+
+        <div class="d-flex flex-column flex-md-row gap-4 mb-4 align-items-center">
+          <img src="<%= listing.image.url %>" class="img-fluid listing-image" alt="<%= listing.title %>">
+          <div>
+            <h4 class="fw-semibold"><%= listing.title %></h4>
+            <p class="info-text mb-1">Hosted by <strong><%= listing.owner.username %></strong></p>
+            <p class="info-text mb-1">Base Price: ₹ <%= listing.price.toLocaleString("en-IN") %></p>
+            <p class="info-text mb-1">GST (18%): ₹ <%= (listing.price * 0.18).toFixed(2) %></p>
+            <p class="info-text mb-1">Duration: <strong><%= listing.duration || "2 nights" %></strong></p>
+            <div class="price-tag mt-2">Total: ₹ <%= (listing.price * 1.18).toFixed(2) %></div>
+          </div>
+        </div>
+
+        <form action="/payment/complete" method="POST" novalidate class="needs-validation">
+          <input type="hidden" name="listingId" value="<%= listing._id %>">
+          <input type="hidden" name="amount" value="<%= (listing.price * 1.18).toFixed(2) %>">
+
+          <div class="mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" name="fullName" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" name="email" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" name="phone" required>
+          </div>
+
+          <div class="mb-4">
+            <label for="duration" class="form-label">Select Stay Dates</label>
+            <input type="text" id="datepicker" name="duration" class="form-control" required placeholder="Pick date range">
+          </div>
+
+          <button class="btn btn-primary btn-lg w-100 pay-btn">Proceed to Pay</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js"></script>
+<script>
+  const picker = new Litepicker({
+    element: document.getElementById("datepicker"),
+    singleMode: false,
+    format: "YYYY-MM-DD",
+    numberOfMonths: 2,
+    numberOfColumns: 2,
+    tooltipText: {
+      one: "night",
+      other: "nights"
+    },
+    tooltipNumber: (totalDays) => totalDays - 1
+  });
+</script>
