@@ -1,6 +1,3 @@
-Claro, aquí tienes un archivo `README.md` detallado basado en la información que proporcionaste sobre tu proyecto **IndeHaven**.
-
------
 
 # IndeHaven: Propiedad Rental Platform for the Indian Audience
 
@@ -16,10 +13,22 @@ Claro, aquí tienes un archivo `README.md` detallado basado en la información q
 | | **Role-Based Access Control (RBAC)** | Implemented middleware to ensure only property owners can edit or delete their respective listings. |
 | **Data & Backend** | **MongoDB** | NoSQL database powering the storage and management of all listing and user data. |
 | | **Express.js + Node.js** | Provides a scalable and efficient backend architecture. |
-| **User Experience** | **Real-time Chat** | Instant messaging between users and property owners powered by **Socket.IO**. |
+| **Real-time & UX** | **Real-time Chat** | **(Implemented)** Instant messaging between users and property owners powered by **Socket.IO**. |
 | | **Smart Search** | Advanced filtering capabilities to easily find properties based on specific user needs. |
 | | **GST Toggle** | Ensures transparent pricing with an in-app switch to show the Goods and Services Tax (GST) applied. |
 | **Media Handling** | **Image Uploads with Cloudinary** | Fast, reliable media handling and secure cloud storage for all property images. |
+
+-----
+
+## 🖼️ Screenshots / Demo
+
+<img width="1920" height="1080" alt="Screenshot (338)" src="https://github.com/user-attachments/assets/2d2d7db1-8e19-4eed-a484-1b6e4332274e" />
+<img width="1920" height="1080" alt="Screenshot (337)" src="https://github.com/user-attachments/assets/0752476e-0185-4178-a710-fe682db12226" />
+<img width="1920" height="1080" alt="Screenshot (325)" src="https://github.com/user-attachments/assets/dfdc46c8-b3b5-42e7-861e-ecfb759f3fbf" />
+<img width="1920" height="1080" alt="Screenshot (323)" src="https://github.com/user-attachments/assets/80d485de-4ff0-48dc-8317-05643bf1f47c" />
+
+
+-----
 
 ## 🛠️ Technical Stack
 
@@ -36,14 +45,14 @@ Claro, aquí tienes un archivo `README.md` detallado basado en la información q
   * Implemented **robust security middleware** throughout the application.
   * Optimized **media delivery** using Cloudinary for varied network conditions.
 
-## 🌟 Future Enhancements (Coming Soon)
+## 🌟 Future Enhancements (Work in Progress)
 
-We are continuously working on improving the platform. Upcoming features include:
+We are continuously working on improving the platform. These upcoming features are currently in development:
 
-  * **🗨️ AI-Powered Chatbot:** To assist users during their session for quick inquiries and guidance.
-  * **💳 Payment Gateway Integration:** To enable smooth and secure rental transactions (form data for this is already stored in the DB to ease onboarding).
-  * **📌 Real-time Notifications:** In-app and browser alerts for new chat messages.
-  * **🗺️ Intelligent Location Search:** Enhanced, location-based search capabilities for better property discovery.
+  * **💳 Payment Gateway Integration (WIP):** To enable smooth and secure rental transactions (form data for this is already stored in the DB to ease onboarding).
+  * **🗨️ AI-Powered Chatbot (WIP):** To assist users during their session for quick inquiries and guidance.
+  * **📌 Real-time Notifications (WIP):** In-app and browser alerts for new chat messages.
+  * **🗺️ Intelligent Location Search (WIP):** Enhanced, location-based search capabilities for better property discovery.
 
 ## 📚 What I Learned
 
