@@ -48,13 +48,13 @@
   <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
       <div class="payment-card">
-        <h2 class="text-center mb-4 text-dark fw-bold">💳 Secure Payment</h2>
+        <h2 class="text-center mb-4 text-dark fw-bold">💳 Secure Payment Coming Soon</h2>
 
         <div class="d-flex flex-column flex-md-row gap-4 mb-4 align-items-center">
           <img src="<%= listing.image.url %>" class="img-fluid listing-image" alt="<%= listing.title %>">
           <div>
             <h4 class="fw-semibold"><%= listing.title %></h4>
-            <p class="info-text mb-1">Hosted by <strong><%= listing.owner.username %></strong></p>
+            <p class="info-text mb-1">Hosted by <strong><%= listing.owner ? listing.owner.username : "Unknown" %></p>
             <p class="info-text mb-1">Base Price: ₹ <%= listing.price.toLocaleString("en-IN") %></p>
             <p class="info-text mb-1">GST (18%): ₹ <%= (listing.price * 0.18).toFixed(2) %></p>
             <p class="info-text mb-1">Duration: <strong><%= listing.duration || "2 nights" %></strong></p>

@@ -8,7 +8,7 @@
     "runtime": "V2",
     "numReplicas": 1,
     "sleepApplication": false,
-    "startCommand": "node index.js",
+    "startCommand": "node app.js",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }

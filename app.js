@@ -26,7 +26,7 @@ const chatRoutes = require("./routes/chat");
 
 
 // "mongodb://127.0.0.1:27017/wander"
-const mongo_url = process.env.mongo_url;
+const mongo_url = process.env.MONGO_URI;
 async function main() {
     await mongoose.connect(mongo_url);
     console.log("Connected to MongoDB");
