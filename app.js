@@ -25,7 +25,8 @@ const paymentRoutes = require("./routes/payment");
 const chatRoutes = require("./routes/chat"); 
 
 
-const mongo_url = "mongodb://127.0.0.1:27017/wanderlust";
+// "mongodb://127.0.0.1:27017/wander"
+const mongo_url = process.env.mongo_url;
 async function main() {
     await mongoose.connect(mongo_url);
     console.log("Connected to MongoDB");
@@ -70,17 +71,7 @@ app.use((req, res, next) => {
     next();
 });
         
-
-
-
-
-
-
-
-
-
-
-
+//dummy 
 app.post("/api/chat", async (req, res) => {
     try {
         const { message } = req.body;
@@ -161,7 +152,7 @@ const isLoggedIn = (req, res, next) => {
     }
     next();
 };
-
+//dummy model
 app.get("/listings/:id/payment", isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id).populate("owner");
@@ -175,6 +166,7 @@ app.get("/listings/:id/payment", isLoggedIn, async (req, res) => {
 });
 
 
+
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"));
 });
@@ -185,13 +177,13 @@ app.use((err, req, res, next) => {
     res.status(500).render("error.ejs", { message });
 });
 
-
+//dummy
 const server = http.createServer(app);
 const io = new Server(server);
 
 
 io.on("connection", (socket) => {
-    console.log("🟢 A user connected:", socket.id);
+    console.log(" A user connected:", socket.id);
 
     socket.on("joinRoom", (roomId) => {
         socket.join(roomId);
@@ -203,10 +195,10 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", () => {
-        console.log("🔴 A user disconnected:", socket.id);
+        console.log(" A user disconnected:", socket.id);
     });
 });
 
-server.listen(8000, () => {
+server.listen(process.env.PORT || 5000, () => {
     console.log("Server is listening on port 8000");
 });
