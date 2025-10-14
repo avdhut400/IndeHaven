@@ -3,30 +3,29 @@
 
 ## 🚀 Overview
 
-**IndeHaven** is a feature-rich, full-stack property rental platform specifically crafted to make property discovery and management seamless for both travelers and hosts within the Indian market. Leveraging the MERN-stack ecosystem and modern real-time communication technologies, IndeHaven aims to be a leading solution for property rentals.
+**IndeHaven** he ek feature-rich, full-stack property rental platform aahe, je specialy Indian audience sathi design kelele aahe. Ya platform mule travellers ani hosts doghan sathi property shodhne ani manage karne seamless zale aahe. **Node.js/Express** ecosystem, **MongoDB** database ani **EJS** templating cha use karun, IndeHaven he property rental sathi ek uttam solution banavnyacha lakshya thevte.
 
 ## ✨ Key Features
 
 | Category | Feature | Description |
 | :--- | :--- | :--- |
-| **Security & Access** | **User Authentication & Authorization** | Secure Sign Up / Log In with reliable session handling using **Passport.js**. |
-| | **Role-Based Access Control (RBAC)** | Implemented middleware to ensure only property owners can edit or delete their respective listings. |
-| **Data & Backend** | **MongoDB** | NoSQL database powering the storage and management of all listing and user data. |
-| | **Express.js + Node.js** | Provides a scalable and efficient backend architecture. |
-| **Real-time & UX** | **Real-time Chat** | **(Implemented)** Instant messaging between users and property owners powered by **Socket.IO**. |
-| | **Smart Search** | Advanced filtering capabilities to easily find properties based on specific user needs. |
-| | **GST Toggle** | Ensures transparent pricing with an in-app switch to show the Goods and Services Tax (GST) applied. |
-| **Media Handling** | **Image Uploads with Cloudinary** | Fast, reliable media handling and secure cloud storage for all property images. |
+| **Security & Access** | **User Authentication & Authorization** | **Passport.js** cha use karun secure Sign Up / Log In ani reliable session handling. |
+| | **Role-Based Access Control (RBAC)** | Property ownerschach listings edit kinva delete karnyachi permission asavi, yasathi middleware implement kela aahe. |
+| **Data & Backend** | **MongoDB** | Saglya listing ani user data sathi NoSQL database. |
+| | **Express.js + Node.js** | Scalable ani efficient backend architecture provide karte. |
+| **User Experience** | **Smart Search** | Userchya garjanusar properties search ani filter karnyachi advance capability. |
+| | **GST Toggle** | Transparent pricing sathi in-app switch, jo Goods and Services Tax (GST) apply kelyas dakhavto. |
+| **Media Handling** | **Image Uploads with Cloudinary** | Saglya property images sathi fast, reliable media handling ani secure cloud storage. |
 
 -----
 
 ## 🖼️ Screenshots / Demo
+<img width="1920" height="1080" alt="Screenshot (333)" src="https://github.com/user-attachments/assets/e4e54f95-99d7-48de-90ec-b3997f5a2145" />
+<img width="1920" height="1080" alt="Screenshot (337)" src="https://github.com/user-attachments/assets/5f500699-760e-4d8c-a830-d837701af897" />
+<img width="1920" height="1080" alt="Screenshot (325)" src="https://github.com/user-attachments/assets/d4b5a2b9-2e86-4e4f-b2ae-4dc128ec03e2" />
+<img width="1920" height="1080" alt="Screenshot (323)" src="https://github.com/user-attachments/assets/f62329da-f15a-41b6-833e-f94b9f3a6645" />
 
-<img width="1920" height="1080" alt="Screenshot (338)" src="https://github.com/user-attachments/assets/2d2d7db1-8e19-4eed-a484-1b6e4332274e" />
-<img width="1920" height="1080" alt="Screenshot (337)" src="https://github.com/user-attachments/assets/0752476e-0185-4178-a710-fe682db12226" />
-<img width="1920" height="1080" alt="Screenshot (325)" src="https://github.com/user-attachments/assets/dfdc46c8-b3b5-42e7-861e-ecfb759f3fbf" />
-<img width="1920" height="1080" alt="Screenshot (323)" src="https://github.com/user-attachments/assets/80d485de-4ff0-48dc-8317-05643bf1f47c" />
-
+```
 
 -----
 
@@ -34,6 +33,7 @@
 
   * **Backend:** Node.js, Express.js
   * **Database:** MongoDB (NoSQL)
+  * **View Engine:** **EJS (Embedded JavaScript)**
   * **Authentication:** Passport.js
   * **Real-time Communication:** Socket.IO
   * **Media Storage:** Cloudinary
@@ -41,31 +41,29 @@
 
 ### Technical Journey Highlights
 
-  * Built stable **WebSocket connections** that can scale to manage real-time interactions efficiently.
-  * Implemented **robust security middleware** throughout the application.
-  * Optimized **media delivery** using Cloudinary for varied network conditions.
+  * Real-time interactions manage karnyache ani scalable connections banavnyache stable **WebSocket connections** build kele.
+  * Application madhye **robust security middleware** implement kela.
+  * Varied network conditions sathi Cloudinary cha use karun **media delivery** optimize keli.
 
 ## 🌟 Future Enhancements (Work in Progress)
 
-We are continuously working on improving the platform. These upcoming features are currently in development:
+Platform sudharnyasathi amhi satat kam karat aahot. He pudhil features sadyasthiti madhye vikasit hot aahot:
 
-  * **💳 Payment Gateway Integration (WIP):** To enable smooth and secure rental transactions (form data for this is already stored in the DB to ease onboarding).
-  * **🗨️ AI-Powered Chatbot (WIP):** To assist users during their session for quick inquiries and guidance.
-  * **📌 Real-time Notifications (WIP):** In-app and browser alerts for new chat messages.
-  * **🗺️ Intelligent Location Search (WIP):** Enhanced, location-based search capabilities for better property discovery.
+  * **🗨️ Real-time Chat (WIP):** Users ani property owners madhe tatkal messaging sathi **Socket.IO** integration.
+  * **💳 Payment Gateway Integration (WIP):** Smooth ani secure rental transactions sathi (onboarding sope karnyasaathi form data aadhi pasun DB madhye store kela aahe).
+  * **📌 Real-time Notifications (WIP):** Navin chat messages sathi in-app ani browser alerts.
+  * **🗺️ Intelligent Location Search (WIP):** Better property discovery sathi enhanced, location-based search capabilities.
+  * **🤖 AI-Powered Chatbot (WIP):** Userla session daramyan madat karnyasaathi.
 
-## 📚 What I Learned
+## 🤝 Contributions
 
-Developing IndeHaven was a significant learning experience, notably in:
+IndeHaven ek open-source project aahe. Tumhi ya project madhye yogdaan (contribution) deu shakta\!
 
-1.  Managing **real-time interactions** and building scalable connections with **Socket.IO**.
-2.  Implementing robust **role-based access control (RBAC)** using **Express middleware**.
-3.  Designing a clean, responsive user interface utilizing **HTML, CSS & Bootstrap**.
-4.  Handling secure image uploads and cloud storage using **Cloudinary**.
+Bug reports, navin features suggestions kinva code changes asot, tumhi pull request karun amhala madat karu shakta. Krupya karun yogdaan denyapurvi amche **[CONTRIBUTING.md file link]** (navin file banvnyachi garaj aahe) vacha.
 
 ## 💻 Setup and Installation
 
-*(The GitHub link is coming soon\! These are placeholder instructions for when the repository is public.)*
+*(GitHub link lavkarach yet aahe\! He repository public zalyavar sathi placeholder instructions aahet.)*
 
 1.  **Clone the repository:**
     ```bash
@@ -80,10 +78,10 @@ Developing IndeHaven was a significant learning experience, notably in:
     npm install
     ```
 4.  **Configure Environment Variables:**
-    Create a `.env` file in the root directory and add your credentials for:
+    Root directory madhye ek `.env` file banva ani tumche credentials add kara:
       * `MONGO_URI`
       * `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
-      * `SESSION_SECRET` (for Passport)
+      * `SESSION_SECRET` (Passport sathi)
 5.  **Start the server:**
     ```bash
     npm start
@@ -94,7 +92,3 @@ Developing IndeHaven was a significant learning experience, notably in:
   * **Developer:** Avdhut Magar
   * **Connect:** [Avdhut Magar on LinkedIn](https://www.google.com/search?q=https://www.linkedin.com/in/avdhut-magar-94088333b/)
   * **Project Launch Post:** [LinkedIn Activity](https://www.linkedin.com/posts/avdhut-magar-94088333b_webdevelopment-nodejs-expressjs-activity-7318525305525100545-fQpd?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAF_MY_8BDDMzMK7CHt9q5ryHqC9ToL_RRK8)
-
------
-
-*Stay tuned – the full repository link will be shared shortly\!*
