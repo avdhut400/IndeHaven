@@ -97,4 +97,3 @@ Bug reports, navin features suggestions kinva code changes asot, tumhi pull requ
 
 -----
 
-*Stay tuned – full repository link lavkarach share kela jail\!*
